@@ -2,8 +2,6 @@ import SwiftUI
 
 struct LookupView: View {
     @AppStorage("selectedState") private var stateCode = "UT"
-    @AppStorage("lookupBaseURL") private var baseURL = ""
-    @AppStorage("lookupAPIKey") private var apiKey = ""
 
     @State private var plate = ""
     @State private var isLoading = false
@@ -47,20 +45,18 @@ struct LookupView: View {
                         row("Year", vehicle.year)
                         row("Make", vehicle.make)
                         row("Model", vehicle.model)
-                        row("Color", vehicle.color)
+                        row("VIN", vehicle.vin)
+                        row("Body", vehicle.body)
+                        row("Engine", vehicle.engine)
+                        row("Fuel", vehicle.fuel)
+                        row("Transmission", vehicle.transmission)
                     }
                 }
 
                 Section {
-                    TextField("Provider endpoint URL", text: $baseURL)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled()
-                        .keyboardType(.URL)
-                    SecureField("API key", text: $apiKey)
-                } header: {
-                    Text("Data provider settings")
-                } footer: {
-                    Text("Plate lookup needs a paid third-party data service and your own API key. This app returns vehicle details only, never owner information. Use lookups lawfully and respect people's privacy.")
+                    Text("Free lookups: the plate is matched to a VIN (CarAPI, 100 free lookups a month), then the VIN is decoded into full specs by NHTSA. This app returns vehicle details only, never owner information. Use lookups lawfully and respect people's privacy.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                 }
             }
             .navigationTitle("Plate Lookup")
@@ -80,7 +76,7 @@ struct LookupView: View {
         vehicle = nil
         defer { isLoading = false }
 
-        let service = GenericPlateAPI(baseURL: baseURL, apiKey: apiKey)
+        let service = BakedInPlateLookup()
         do {
             vehicle = try await service.lookup(
                 plate: plate.uppercased().replacingOccurrences(of: " ", with: ""),

@@ -1,0 +1,255 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		327915A9FFE85CD3F6733CFC /* PlateCheckApp.swift in Sources */ = { isa = PBXBuildFile; fileRef = 6E0272194A6D7C8FDE4E7025 /* PlateCheckApp.swift */; };
+		32629BE96394C480F004933F /* ContentView.swift in Sources */ = { isa = PBXBuildFile; fileRef = 67997E07013A381DD6F48938 /* ContentView.swift */; };
+		98FA25BC7FE2362950E04A46 /* VanityCheckView.swift in Sources */ = { isa = PBXBuildFile; fileRef = 22E38BA7490A1A6357633248 /* VanityCheckView.swift */; };
+		8011A147674B52989B9E713E /* LookupView.swift in Sources */ = { isa = PBXBuildFile; fileRef = E5AACE66CBFE12B6686D2B54 /* LookupView.swift */; };
+		BC24AF238274D63ED3B4F85A /* StateData.swift in Sources */ = { isa = PBXBuildFile; fileRef = 721C9B0AED4281AABB5B040D /* StateData.swift */; };
+		C0158E043DB621214384F44A /* PlateRules.swift in Sources */ = { isa = PBXBuildFile; fileRef = 3B2DA180DDE4E447FA260E04 /* PlateRules.swift */; };
+		AE71DB50F9DE128CD349F1FF /* PlateLookupService.swift in Sources */ = { isa = PBXBuildFile; fileRef = E83AC4DB2C991172A56113FF /* PlateLookupService.swift */; };
+		935DC4C7F40A9A82960FD984 /* Assets.xcassets in Resources */ = { isa = PBXBuildFile; fileRef = 6F7EA9EFC14AB0C88C1A9228 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		02CA03505A5C41E559AEF367 /* PlateCheck.app */ = { isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlateCheck.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0272194A6D7C8FDE4E7025 /* PlateCheckApp.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlateCheckApp.swift"; sourceTree = "<group>"; };
+		67997E07013A381DD6F48938 /* ContentView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView.swift"; sourceTree = "<group>"; };
+		22E38BA7490A1A6357633248 /* VanityCheckView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VanityCheckView.swift"; sourceTree = "<group>"; };
+		E5AACE66CBFE12B6686D2B54 /* LookupView.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LookupView.swift"; sourceTree = "<group>"; };
+		721C9B0AED4281AABB5B040D /* StateData.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StateData.swift"; sourceTree = "<group>"; };
+		3B2DA180DDE4E447FA260E04 /* PlateRules.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlateRules.swift"; sourceTree = "<group>"; };
+		E83AC4DB2C991172A56113FF /* PlateLookupService.swift */ = { isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlateLookupService.swift"; sourceTree = "<group>"; };
+		6F7EA9EFC14AB0C88C1A9228 /* Assets.xcassets */ = { isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9747818DF48BD142E24758D8 /* Info.plist */ = { isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0490E762DB80918F6BCDE65B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3A9BF64116FF112A9DC6615 = {
+			isa = PBXGroup;
+			children = (
+				C2229774D6C9A4CDB6C9FD9C /* PlateCheck */,
+				9C956222819B42C3959E696C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C2229774D6C9A4CDB6C9FD9C /* PlateCheck */ = {
+			isa = PBXGroup;
+			children = (
+				6E0272194A6D7C8FDE4E7025 /* PlateCheckApp.swift */,
+				67997E07013A381DD6F48938 /* ContentView.swift */,
+				22E38BA7490A1A6357633248 /* VanityCheckView.swift */,
+				E5AACE66CBFE12B6686D2B54 /* LookupView.swift */,
+				721C9B0AED4281AABB5B040D /* StateData.swift */,
+				3B2DA180DDE4E447FA260E04 /* PlateRules.swift */,
+				E83AC4DB2C991172A56113FF /* PlateLookupService.swift */,
+				6F7EA9EFC14AB0C88C1A9228 /* Assets.xcassets */,
+				9747818DF48BD142E24758D8 /* Info.plist */,
+			);
+			path = PlateCheck;
+			sourceTree = "<group>";
+		};
+		9C956222819B42C3959E696C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				02CA03505A5C41E559AEF367 /* PlateCheck.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		153C057A25A63B37AECB66C1 /* PlateCheck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 517BB571D82E0308B42700DE /* Build configuration list for PBXNativeTarget "PlateCheck" */;
+			buildPhases = (
+				23C5EA191E615E73912E0C56 /* Sources */,
+				0490E762DB80918F6BCDE65B /* Frameworks */,
+				029D1726171DF44600E53148 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlateCheck;
+			productName = PlateCheck;
+			productReference = 02CA03505A5C41E559AEF367 /* PlateCheck.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1B01A504E7191E1E5276AC37 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					153C057A25A63B37AECB66C1 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 856FA4E045B680AFF22B9090 /* Build configuration list for PBXProject "PlateCheck" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F3A9BF64116FF112A9DC6615;
+			productRefGroup = 9C956222819B42C3959E696C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				153C057A25A63B37AECB66C1 /* PlateCheck */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		029D1726171DF44600E53148 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				935DC4C7F40A9A82960FD984 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		23C5EA191E615E73912E0C56 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				327915A9FFE85CD3F6733CFC /* PlateCheckApp.swift in Sources */,
+				32629BE96394C480F004933F /* ContentView.swift in Sources */,
+				98FA25BC7FE2362950E04A46 /* VanityCheckView.swift in Sources */,
+				8011A147674B52989B9E713E /* LookupView.swift in Sources */,
+				BC24AF238274D63ED3B4F85A /* StateData.swift in Sources */,
+				C0158E043DB621214384F44A /* PlateRules.swift in Sources */,
+				AE71DB50F9DE128CD349F1FF /* PlateLookupService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		312CF88960926C6F383A329C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MARKETING_VERSION = 1.0;
+			};
+			name = Debug;
+		};
+		00E7654CA3F9F9C1D06CB437 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MARKETING_VERSION = 1.0;
+			};
+			name = Release;
+		};
+		CCEDD66B13C8715BD8C9E99F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = PlateCheck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.philbert.platecheck;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7CE5962E436BFE7AEDC43E65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = PlateCheck/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.philbert.platecheck;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		856FA4E045B680AFF22B9090 /* Build configuration list for PBXProject "PlateCheck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				312CF88960926C6F383A329C /* Debug */,
+				00E7654CA3F9F9C1D06CB437 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		517BB571D82E0308B42700DE /* Build configuration list for PBXNativeTarget "PlateCheck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CCEDD66B13C8715BD8C9E99F /* Debug */,
+				7CE5962E436BFE7AEDC43E65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1B01A504E7191E1E5276AC37 /* Project object */;
+}

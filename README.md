@@ -11,9 +11,11 @@ which re-signs it with your Apple ID. Free Apple ID installs expire after 7 days
 
 ## Lookup tab
 
-Plate lookup needs a paid third-party data provider. Enter its endpoint URL and
-API key in the Lookup tab settings. The app returns vehicle details only, never
-owner information.
+Plate lookup is baked in, with nothing to configure. The plate is matched to
+a VIN by CarAPI (free tier: 100 lookups a month, no credit card — token lives
+in `PlateCheck/PlateLookupService.swift`), then the VIN is decoded into full
+specs by NHTSA's vPIC database (free, no key). The app returns vehicle details
+only, never owner information.
 
 ## State rules
 

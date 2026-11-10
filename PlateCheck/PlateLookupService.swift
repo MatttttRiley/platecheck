@@ -1,26 +1,48 @@
 import Foundation
 
+/// Baked-in lookup, no settings, no key entry in the app.
+///
+/// Step 1: CarAPI turns the plate + state into a VIN.
+///        Free tier: 100 requests/month across all endpoints, no credit card.
+///        Sign up free at carapi.dev and paste the token below.
+/// Step 2: NHTSA vPIC decodes the VIN into full vehicle specs.
+///        Free, no key, no account, no limits.
+///
 /// Vehicle details only (make, model, year, etc.).
 /// Deliberately does NOT include owner names or addresses.
 struct VehicleInfo {
+    var vin: String?
     var make: String?
     var model: String?
     var year: String?
-    var color: String?
+    var body: String?
+    var engine: String?
+    var fuel: String?
+    var transmission: String?
     var raw: [String: String]
 }
 
+/// Free CarAPI token (carapi.dev, free tier, no card required).
+/// Paste your token here. It is a free-tier token with no payment method
+/// attached, so the worst case if someone copies it from the public repo
+/// is the 100 free lookups for the month get used up; it resets monthly
+/// and nothing can ever be charged.
+private let carAPIToken = "carapi_b13fc0eefca1aa6e7e0ede8b3fe5b6e4"
+
 enum LookupError: LocalizedError {
-    case notConfigured
+    case tokenMissing
+    case quotaExceeded
     case badResponse(Int)
     case noData
 
     var errorDescription: String? {
         switch self {
-        case .notConfigured:
-            return "Add your data provider's endpoint URL and API key in the Lookup tab settings first."
+        case .tokenMissing:
+            return "The lookup service isn't set up yet (missing CarAPI token)."
+        case .quotaExceeded:
+            return "Free monthly limit reached (100 lookups/month). It resets next month."
         case .badResponse(let code):
-            return "The provider returned an error (HTTP \(code))."
+            return "The lookup service returned an error (HTTP \(code))."
         case .noData:
             return "No vehicle found for that plate."
         }
@@ -31,63 +53,79 @@ protocol PlateLookupService {
     func lookup(plate: String, stateCode: String) async throws -> VehicleInfo
 }
 
-/// Generic client for a paid plate-to-vehicle data provider.
-///
-/// Every provider has its own URL shape and JSON format, so this is a starting
-/// point: it sends a GET request with `plate` and `state` query parameters and
-/// your key as a Bearer token, then looks for common field names in the JSON.
-/// Adjust `buildRequest` and `parse` to match the provider you sign up with.
-struct GenericPlateAPI: PlateLookupService {
-    let baseURL: String
-    let apiKey: String
-
+struct BakedInPlateLookup: PlateLookupService {
     func lookup(plate: String, stateCode: String) async throws -> VehicleInfo {
-        guard !baseURL.isEmpty, !apiKey.isEmpty,
-              var components = URLComponents(string: baseURL) else {
-            throw LookupError.notConfigured
+        let vin = try await plateToVIN(plate: plate, stateCode: stateCode)
+        return try await decodeVIN(vin)
+    }
+
+    /// CarAPI: GET /v1/plate-to-vin/{plate}?country=US&state={state}&token={token}
+    /// Returns {"plateNumber": ..., "country": ..., "vin": ...}
+    private func plateToVIN(plate: String, stateCode: String) async throws -> String {
+        guard !carAPIToken.isEmpty, carAPIToken != "YOUR_CARAPI_TOKEN",
+              let encoded = plate.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "https://api.carapi.dev/v1/plate-to-vin/\(encoded)?country=US&state=\(stateCode)&token=\(carAPIToken)") else {
+            throw LookupError.tokenMissing
         }
 
-        components.queryItems = [
-            URLQueryItem(name: "plate", value: plate),
-            URLQueryItem(name: "state", value: stateCode),
-        ]
-        guard let url = components.url else { throw LookupError.notConfigured }
+        let (data, response) = try await URLSession.shared.data(from: url)
+        if let http = response as? HTTPURLResponse {
+            if http.statusCode == 429 { throw LookupError.quotaExceeded }
+            if !(200...299).contains(http.statusCode) { throw LookupError.badResponse(http.statusCode) }
+        }
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let vin = json["vin"] as? String, !vin.isEmpty else {
+            throw LookupError.noData
+        }
+        return vin
+    }
 
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+    /// NHTSA vPIC: GET /api/vehicles/DecodeVin/{vin}?format=json
+    /// Returns {"Results": [{"Variable": "Make", "Value": "HONDA"}, ...]}
+    private func decodeVIN(_ vin: String) async throws -> VehicleInfo {
+        guard let encoded = vin.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
+              let url = URL(string: "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/\(encoded)?format=json") else {
+            throw LookupError.noData
+        }
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let (data, response) = try await URLSession.shared.data(from: url)
         if let http = response as? HTTPURLResponse, !(200...299).contains(http.statusCode) {
             throw LookupError.badResponse(http.statusCode)
         }
-        return try parse(data)
-    }
-
-    private func parse(_ data: Data) throws -> VehicleInfo {
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let results = json["Results"] as? [[String: Any]] else {
             throw LookupError.noData
         }
-        // Flatten top-level values to strings for display.
-        var flat: [String: String] = [:]
-        for (key, value) in json {
-            if let s = value as? String { flat[key] = s }
-            else if let n = value as? NSNumber { flat[key] = n.stringValue }
-        }
-        if flat.isEmpty { throw LookupError.noData }
 
-        func first(_ keys: [String]) -> String? {
-            for k in keys {
-                if let match = flat.first(where: { $0.key.lowercased() == k }) { return match.value }
+        var fields: [String: String] = [:]
+        for row in results {
+            if let variable = row["Variable"] as? String,
+               let value = row["Value"] as? String,
+               !value.isEmpty {
+                fields[variable] = value
             }
-            return nil
+        }
+        guard fields["Make"] != nil || fields["Model"] != nil else {
+            throw LookupError.noData
+        }
+
+        var engine = fields["Engine Configuration"]
+        if let displacement = fields["Displacement (L)"],
+           let liters = Double(displacement) {
+            let desc = String(format: "%.1fL", liters)
+            engine = engine.map { "\($0) \(desc)" } ?? desc
         }
 
         return VehicleInfo(
-            make: first(["make"]),
-            model: first(["model"]),
-            year: first(["year", "model_year"]),
-            color: first(["color", "colour"]),
-            raw: flat
+            vin: vin,
+            make: fields["Make"],
+            model: fields["Model"],
+            year: fields["Model Year"],
+            body: fields["Body Class"],
+            engine: engine,
+            fuel: fields["Fuel Type - Primary"],
+            transmission: fields["Transmission Style"],
+            raw: fields
         )
     }
 }
